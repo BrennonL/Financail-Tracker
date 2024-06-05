@@ -2,6 +2,7 @@ import datetime
 import os
 import pandas as pd
 from IPython.display import display
+from pandas import plotting as plt
 
 class My_db:
     def __init__(self, curr_date) -> None:
@@ -11,7 +12,7 @@ class My_db:
         self.df = self.get_csv()
 
 
-    def get_csv(self):
+    def get_csv(self) -> pd.DataFrame:
         '''
         :fun: Converts the pre-existing dataset in csv file (corresponding with the year)
             and converts it to a pandas Dataframe.
@@ -29,15 +30,16 @@ class My_db:
             my_df = pd.read_csv(self.path)
         else:
             my_df = pd.DataFrame(data=None, columns=["Date", "Type", "Amount", "Note"])            
-            print("COOLIO")
         return my_df
     
 
-    def display_month(self):
-        display(self.df)
+    def display_month(self, month):
+        regex = f"{self.year}-{month}-[0-9][0-9]"
+        print(self.df[self.df.Date.str.match(regex)])
 
     def display_year(self, year):
-        ...
+        display(self.df)
+        
 
     def plot_month(self, mon):
         ...
@@ -50,8 +52,8 @@ class My_db:
         #TODO -- Change this to Concat instead of append
         self.df = self.df.append(new_row, ignore_index = True)
     
-    def delete_row(self, index):
-        self.df = self.df.drop(index)
+    def delete_row(self, this_index):
+        self.df = self.df.drop(self.df.index[this_index])
 
     def put_back_csv(self):
         ''' This will put the df back into the csv file'''

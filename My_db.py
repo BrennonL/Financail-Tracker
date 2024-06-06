@@ -2,7 +2,7 @@ import datetime
 import os
 import pandas as pd
 from IPython.display import display
-from pandas import plotting as plt
+import matplotlib.pyplot as plt
 
 class My_db:
     def __init__(self, curr_date) -> None:
@@ -23,6 +23,17 @@ class My_db:
             my_df = pd.DataFrame(data=None, columns=["Date", "Type", "Amount", "Note"])            
         return my_df
     
+    def Filter_month(self, month):
+        regex = f"{self.year}-{month}-[0-9][0-9]"
+        return self.df[self.df.Date.str.match(regex)]
+
+    def plot_month(self, mon):
+        month_df = self.Filter_month(mon)
+        month_df.plot(kind='bar', x='Date', y='Amount')
+        plt.xlabel("Date")
+        plt.ylabel("Amout $")
+        plt.title("mon")
+        plt.show()
 
     def display_month(self, month):
         '''
@@ -30,15 +41,11 @@ class My_db:
         :fun: Uses a regex and df.Date.str.match() function to query the months
             that are passed into the function from the df.
         '''
-        regex = f"{self.year}-{month}-[0-9][0-9]"
-        print(self.df[self.df.Date.str.match(regex)])
+        display(self.Filter_month(month))
+        self.plot_month(month)
 
     def display_year(self, year):
-        display(self.df)
-        
-
-    def plot_month(self, mon):
-        ...
+        display(self.df) 
 
     def plot_year(self, year):
         ...
@@ -51,7 +58,7 @@ class My_db:
         :fun: Takes the following input and creates a new row in the self.df
             using the df.append() function.
         '''
-        new_row = {"Date" : self.date, "Type": tran_type, "Amount": amount, "Note": note}
+        new_row = {"Date" : str(self.date), "Type": tran_type, "Amount": amount, "Note": note}
         #TODO -- Change this to Concat instead of append
         self.df = self.df.append(new_row, ignore_index = True)
     

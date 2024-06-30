@@ -81,11 +81,11 @@ def Start_program():
     power_on = True
     while power_on:
         print("What do you want to do?")
-        print("Q: quit")
-        print("I: insert new row")
-        print("VM: view months finances")
-        print("VY: View year finances")
-        print("D: delete a row")
+        print("Q: Quit")
+        print("I: Insert New Row")
+        print("VM: View Months Finances")
+        print("VY: View Year Finances")
+        print("D: Delete a Row")
         user_choice = input("INPUT: ")
         Display_spacing()
         if user_choice.upper() == "Q":
@@ -97,6 +97,8 @@ def Start_program():
 
         elif user_choice.upper() == "VY":
             print("________View year needs working on___________")
+            selected_year = str(input("Which year do you want to view?(YYYY): "))
+            
 
         elif user_choice.upper() == "D":
             Delete_row(curr_db)
